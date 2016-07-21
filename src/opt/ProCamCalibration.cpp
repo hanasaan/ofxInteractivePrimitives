@@ -51,6 +51,13 @@ void Marker::draw()
 		ofNoFill();
 		ofRect(-15, -15, 30, 30);
 	}
+    
+    if (getObjectPoint().lengthSquared() < FLT_EPSILON && ofGetFrameNum() % 30  > 15) {
+        ofNoFill();
+        ofSetLineWidth(3);
+        ofSetColor(255, 0, 0);
+        ofRect(-15, -15, 30, 30);
+    }
 }
 
 void Marker::update()
