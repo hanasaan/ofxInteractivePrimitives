@@ -155,6 +155,8 @@ public:
 	
 	void setLabel(const string& label) { marker_label = label; }
 	const string& getLabel() const { return marker_label; }
+    
+    bool isNeedUpdateCalibration() const { return need_update_calib; }
 	
 protected:
 	
@@ -176,8 +178,8 @@ public:
 	
 	ofMatrix4x4 getHomography();
 	
-	float getEstimatedCameraPose(cv::Size image_size, cv::Mat& camera_matrix, cv::Mat& rvec, cv::Mat& tvec, float force_fov = 0);
-	float getEstimatedCameraPose(int width, int height, CameraParam &param,  float near = 10, float far = 10000, float force_fov = 0);
+	float getEstimatedCameraPose(cv::Size image_size, cv::Mat& camera_matrix, cv::Mat& rvec, cv::Mat& tvec, float force_fov = 0, ofVec2f lens_offset_pix = ofVec2f());
+	float getEstimatedCameraPose(int width, int height, CameraParam &param,  float near = 10, float far = 10000, float force_fov = 0, ofVec2f lens_offset_pix = ofVec2f());
 
 	void setSelectedImagePoint(int x, int y);
 	Marker* getSelectedMarker();

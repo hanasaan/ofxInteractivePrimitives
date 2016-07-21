@@ -174,7 +174,7 @@ void Manager::markUpdated()
 
 float Manager::getEstimatedCameraPose(cv::Size image_size,
 									  cv::Mat& camera_matrix, cv::Mat& rvec,
-									  cv::Mat& tvec, float force_fov)
+									  cv::Mat& tvec, float force_fov, ofVec2f lens_offset_pix)
 {
 	if (markers.size() <= 6) return -1;
 
@@ -198,9 +198,9 @@ float Manager::getEstimatedCameraPose(cv::Size image_size,
 	float fov = 60;
 	if (force_fov != 0) fov = force_fov;
 
-	float f = (image_size.height / 2) * tan(ofDegToRad(90 - fov / 2));
-	camera_matrix = (cv::Mat_<double>(3, 3) << f, 0, image_size.width / 2, 0, f,
-					 image_size.height / 2, 0, 0, 1);
+	float f = (image_size.height / 2) * tan(ofDegToRad(fov / 2.0));
+	camera_matrix = (cv::Mat_<double>(3, 3) << f, 0, image_size.width / 2 + lens_offset_pix.x, 0, f,
+					 image_size.height / 2 + lens_offset_pix.y, 0, 0, 1);
 
 	float rms = 0;
 
@@ -224,7 +224,9 @@ float Manager::getEstimatedCameraPose(cv::Size image_size,
 				  CV_CALIB_FIX_K4 | CV_CALIB_FIX_K5 | CV_CALIB_FIX_K6 |
 				  CV_CALIB_RATIONAL_MODEL);
 
-		// flags |= CV_CALIB_FIX_PRINCIPAL_POINT;
+        if (lens_offset_pix.lengthSquared() > FLT_EPSILON) {
+             flags |= CV_CALIB_FIX_PRINCIPAL_POINT;
+        }
 
 		rms = cv::calibrateCamera(object_points_arr, image_points_arr, image_size,
 								  camera_matrix, dist_coeffs, rvecs, tvecs,
@@ -279,13 +281,13 @@ void Manager::clear()
 }
 
 float Manager::getEstimatedCameraPose(int width, int height, CameraParam& param,
-									  float near_dist, float far_dist, float force_fov)
+									  float near_dist, float far_dist, float force_fov, ofVec2f lens_offset_pix)
 {
 	cv::Mat camera_matrix, rvec, tvec;
 	cv::Size image_size(width, height);
 
 	float rms = getEstimatedCameraPose(image_size, camera_matrix, rvec, tvec,
-									   force_fov);
+									   force_fov, lens_offset_pix);
 
 	if (rms > 0)
 	{
