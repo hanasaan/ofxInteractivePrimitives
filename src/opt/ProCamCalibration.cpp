@@ -327,6 +327,9 @@ bool Manager::load(const string& path)
 						  config->getDouble(m + ".object[@z]", 0));
 		
 		o->setLabel(config->getString(m + ".label", ""));
+        
+        o->update();
+        o->need_update_calib = false;
 	}
 	
 	return true;
