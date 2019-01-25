@@ -58,7 +58,7 @@ public:
 inline Button* makeButton(Node &parent, const string& label, const ofVec2f& pos, float margin)
 {
 	Button* o = new Button(parent);
-	o->setPosition(pos);
+	o->setPosition(toGlm((ofVec3f&)pos));
 	o->setText(label);
 	o->setMargin(margin);
 	return o;

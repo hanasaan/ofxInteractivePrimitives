@@ -264,7 +264,7 @@ public:
 				if (w == NULL) goto __end__;
 
 				ofVec3f p = getLocalPosition(e.x, e.y);
-				p = w->getGlobalTransformMatrix().getInverse().preMult(p);
+				p = toOf(w->getGlobalTransformMatrix()).getInverse().preMult(p);
 
 				w->hover = true;
 				w->down = true;
@@ -316,7 +316,7 @@ public:
 			{
 				Node *w = elements[s.name_stack.at(0)];
 				ofVec3f p = getLocalPosition(e.x, e.y);
-				p = w->getGlobalTransformMatrix().getInverse().preMult(p);
+				p = toOf(w->getGlobalTransformMatrix()).getInverse().preMult(p);
 
 				w->hover = true;
 				w->mouseReleased(p.x, p.y, e.button);
@@ -328,7 +328,7 @@ public:
 		if (current_object)
 		{
 			ofVec3f p = getLocalPosition(e.x, e.y);
-			p = current_object->getGlobalTransformMatrix().getInverse().preMult(p);
+			p = toOf(current_object->getGlobalTransformMatrix()).getInverse().preMult(p);
 
 			current_object->mouseReleased(p.x, p.y, e.button);
 			current_object->down = false;
@@ -362,7 +362,7 @@ public:
 				current_name_stack.assign(s.name_stack.begin() + 1, s.name_stack.end());
 
 				ofVec3f p = getLocalPosition(e.x, e.y);
-				p = w->getGlobalTransformMatrix().getInverse().preMult(p);
+				p = toOf(w->getGlobalTransformMatrix()).getInverse().preMult(p);
 
 				w->hover = true;
 				w->mouseMoved(p.x, p.y);
@@ -397,7 +397,7 @@ public:
 		if (current_object)
 		{
 			ofVec3f p = getLocalPosition(e.x, e.y);
-			p = current_object->getGlobalTransformMatrix().getInverse().preMult(p);
+			p = toOf(current_object->getGlobalTransformMatrix()).getInverse().preMult(p);
 
 			current_object->hover = true;
 			current_object->mouseDragged(p.x, p.y, e.button);
@@ -573,7 +573,7 @@ void Node::draw(const Internal &)
 	if (getVisible())
 	{
 		glPushMatrix();
-		glMultMatrixf(getLocalTransformMatrix().getPtr());
+		glMultMatrixf(toOf(getLocalTransformMatrix()).getPtr());
 
 		draw();
 
@@ -642,7 +642,7 @@ void RootNode::draw()
 	if (getVisible())
 	{
 		glPushMatrix();
-		glMultMatrixf(getLocalTransformMatrix().getPtr());
+		glMultMatrixf(toOf(getLocalTransformMatrix()).getPtr());
 
 		for (int i = 0; i < children.size(); i++)
 		{

@@ -124,7 +124,7 @@ public:
 	
 	void mouseDragged(int x, int y, int button)
 	{
-		move(getMouseDelta());
+		move(toGlm((const ofVec3f&)getMouseDelta()));
 	}
 };
 
@@ -134,7 +134,7 @@ inline String* makeString(Node &parent, const string& text, const ofVec2f& pos =
 {
 	String* o = new String(parent);
 	o->setText(text);
-	o->setPosition(pos);
+	o->setPosition(toGlm((const ofVec3f&)pos));
 	return o;
 }
 

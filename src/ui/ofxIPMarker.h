@@ -52,7 +52,7 @@ public:
 
 	void mouseDragged(int x, int y, int button)
 	{
-		move(getMouseDelta());
+		move(toGlm((const ofVec3f&)getMouseDelta()));
 	}
 
 	void setText(const string& s) { text = s; }

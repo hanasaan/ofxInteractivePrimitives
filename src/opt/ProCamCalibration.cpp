@@ -139,9 +139,9 @@ void Manager::draw()
 
 		ofVec2f p = getFocusObject()->getPosition();
 		ofNoFill();
-		ofCircle(p, 40);
+		ofDrawCircle(toGlm(p), 40);
 
-		ofCircle(p, 10);
+		ofDrawCircle(toGlm(p), 10);
 
 		ofLine(-10000, p.y, 10000, p.y);
 		ofLine(p.x, -10000, p.x, 10000);

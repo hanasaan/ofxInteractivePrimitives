@@ -75,7 +75,7 @@ public:
 		const vector<GLuint> &names = getCurrentNameStack();
 		if (names.size() == 0)
 		{
-			move(getMouseDelta());
+			move(toGlm((const ofVec3f&)getMouseDelta()));
 		}
 		else if (names.size() == 1
 				 && names[0] == 0)
